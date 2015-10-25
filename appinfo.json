@@ -1,0 +1,34 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "trevordavies095@gmail.com",
+    "longName": "Night Stand",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/dateFont.ttf",
+                "name": "DATE_FONT_28",
+                "type": "font"
+            },
+            {
+                "file": "fonts/digital-7.ttf",
+                "name": "TIME_FONT_50",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Night Stand",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
+    "uuid": "0057de90-fc2b-4594-a60b-84503e049051",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
