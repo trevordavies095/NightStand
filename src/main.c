@@ -13,8 +13,8 @@ static void update_time()
 	struct tm *tick_time = localtime(&temp);
 	
 	// Write the current time into a buffer
-	static char timeBuffer[8];
-	static char dateBuffer[8];
+	static char timeBuffer[10];
+	static char dateBuffer[10];
 	
 	strftime(timeBuffer, sizeof(timeBuffer), clock_is_24h_style() ?
 			"%H:%M" : "%I:%M", tick_time);
