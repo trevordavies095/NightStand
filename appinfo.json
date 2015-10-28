@@ -9,13 +9,18 @@
     "resources": {
         "media": [
             {
-                "file": "fonts/dateFont.ttf",
-                "name": "DATE_FONT_28",
+                "file": "fonts/digital-7.ttf",
+                "name": "FONT_28",
                 "type": "font"
             },
             {
                 "file": "fonts/digital-7.ttf",
-                "name": "TIME_FONT_50",
+                "name": "FONT_18",
+                "type": "font"
+            },
+            {
+                "file": "fonts/digital-7.ttf",
+                "name": "FONT_50",
                 "type": "font"
             }
         ]
@@ -23,11 +28,10 @@
     "sdkVersion": "3",
     "shortName": "Night Stand",
     "targetPlatforms": [
-        "aplite",
         "basalt"
     ],
     "uuid": "0057de90-fc2b-4594-a60b-84503e049051",
-    "versionLabel": "1.1",
+    "versionLabel": "1.2",
     "watchapp": {
         "watchface": true
     }

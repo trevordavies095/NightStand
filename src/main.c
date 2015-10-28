@@ -3,32 +3,44 @@
 static Window *mainWindow;
 static TextLayer *timeLayer;
 static TextLayer *dateLayer;
+static TextLayer *batteryLayer;
 static GFont timeFont;
 static GFont dateFont;
+static GFont battFont;
 
-static void update_time()
+static void update_time_battery()
 {
 	// Get a tm struct
 	time_t temp = time(NULL);
 	struct tm *tick_time = localtime(&temp);
+	BatteryChargeState charge_state = battery_state_service_peek();
 	
 	// Write the current time into a buffer
 	static char timeBuffer[10];
 	static char dateBuffer[10];
+	static char batteryBuffer[16];
 	
 	strftime(timeBuffer, sizeof(timeBuffer), clock_is_24h_style() ?
 			"%H:%M" : "%I:%M", tick_time);
 	
 	strftime(dateBuffer, sizeof(dateBuffer), "%b %e", tick_time);
 	
+	
+	// Depending on the state of the battery, change the text color
+	if(charge_state.is_charging)
+		light_enable(true);
+	else
+		light_enable(false);
+	
 	// Display the time on timeLayer
 	text_layer_set_text(timeLayer, timeBuffer);
 	text_layer_set_text(dateLayer, dateBuffer);
+	text_layer_set_text(batteryLayer, batteryBuffer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 {
-	update_time();
+	update_time_battery();
 }
 
 static void main_window_load(Window *window)
@@ -55,15 +67,27 @@ static void main_window_load(Window *window)
 	text_layer_set_text_color(dateLayer, GColorWhite);
 	text_layer_set_text_alignment(dateLayer, GTextAlignmentCenter);
 	
+	// Create the battery TextLayer
+	batteryLayer = text_layer_create(
+		GRect(0, PBL_IF_ROUND_ELSE(30,0), bounds.size.w, 56));
+	
+	// Make batteryLayer look pretty
+	text_layer_set_background_color(batteryLayer, GColorClear);
+	text_layer_set_text_color(batteryLayer, GColorWhite);
+	text_layer_set_text_alignment(batteryLayer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentRight));
+	
 	// Create GFont
-	timeFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_TIME_FONT_50));
-	dateFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_DATE_FONT_28));
+	timeFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_50));
+	dateFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_28));
+	battFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_18));
 	text_layer_set_font(timeLayer, timeFont);
 	text_layer_set_font(dateLayer, dateFont);
+	text_layer_set_font(batteryLayer, battFont);
 	
 	// Add as child layer
 	layer_add_child(windowLayer, text_layer_get_layer(timeLayer));
 	layer_add_child(windowLayer, text_layer_get_layer(dateLayer));
+	layer_add_child(windowLayer, text_layer_get_layer(batteryLayer));
 }
 
 static void main_window_unload(Window *window)
@@ -71,6 +95,7 @@ static void main_window_unload(Window *window)
 	// Destoy TextLayers
 	text_layer_destroy(timeLayer);
 	text_layer_destroy(dateLayer);
+	text_layer_destroy(batteryLayer);
 }
 
 static void init()
@@ -88,8 +113,8 @@ static void init()
 	// Push the window to the watch
 	window_stack_push(mainWindow, true);
 	
-	// Intialize the time
-	update_time();
+	// Intialize the time and battery
+	update_time_battery();
 	
 	// Setup TickTimerService
 	tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
