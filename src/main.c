@@ -20,32 +20,36 @@ static void update_time_battery()
 	static char dateBuffer[10];
 	static char batteryBuffer[16];
 	
+	// Set time
 	strftime(timeBuffer, sizeof(timeBuffer), clock_is_24h_style() ?
 			"%H:%M" : "%I:%M", tick_time);
 	
+	// Set date
 	strftime(dateBuffer, sizeof(dateBuffer), "%b %e", tick_time);
 	
-	snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%%", 
-		charge_state.charge_percent);
-	
-	
-	// Depending on the state of the battery, change the text color
+	// IF the watch is charging
 	if(charge_state.is_charging)
 	{
+		// Turn on the backlight
 		light_enable(true);
 		
+		// Set the battery percentage
 		snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%% charging",
 			charge_state.charge_percent);
 	}
+	
+	// ELSE the watch isn't charging
 	else
 	{
+		// Turn off the backlight
 		light_enable(false);
 		
+		// Set the baterry percntage
 		snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%%", 
 		charge_state.charge_percent);
 	}
 	
-	// Display the time on timeLayer
+	// Put the text on the time, date, battery TextLayers
 	text_layer_set_text(timeLayer, timeBuffer);
 	text_layer_set_text(dateLayer, dateBuffer);
 	text_layer_set_text(batteryLayer, batteryBuffer);
@@ -53,6 +57,7 @@ static void update_time_battery()
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 {
+	// Refresh time and battery
 	update_time_battery();
 }
 
