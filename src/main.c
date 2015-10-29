@@ -25,12 +25,25 @@ static void update_time_battery()
 	
 	strftime(dateBuffer, sizeof(dateBuffer), "%b %e", tick_time);
 	
+	snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%%", 
+		charge_state.charge_percent);
+	
 	
 	// Depending on the state of the battery, change the text color
 	if(charge_state.is_charging)
+	{
 		light_enable(true);
+		
+		snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%% charging",
+			charge_state.charge_percent);
+	}
 	else
+	{
 		light_enable(false);
+		
+		snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%%", 
+		charge_state.charge_percent);
+	}
 	
 	// Display the time on timeLayer
 	text_layer_set_text(timeLayer, timeBuffer);
