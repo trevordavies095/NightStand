@@ -7,6 +7,22 @@ static TextLayer *batteryLayer;
 static GFont timeFont;
 static GFont dateFont;
 static GFont battFont;
+static GFont chargeTimeFont;
+
+#define KEY_CHG_LIGHT_OFF 0
+#define KEY_CHG_LIGHT_ON  1
+
+int chgLight;
+
+static void in_recv_handler(DictionaryIterator *iterator, void *context)
+{
+	Tuple *t = dict_read_first(iterator);
+  	
+	if(t)
+  	{
+			
+	}
+}
 
 static void update_time_battery()
 {
@@ -36,6 +52,12 @@ static void update_time_battery()
 		// Set the battery percentage
 		snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%% charging",
 			charge_state.charge_percent);
+		
+		// Hide date
+		layer_set_hidden((Layer *)dateLayer, true);
+		
+		// Bigger font
+		text_layer_set_font(timeLayer, chargeTimeFont);
 	}
 	
 	// ELSE the watch isn't charging
@@ -47,6 +69,12 @@ static void update_time_battery()
 		// Set the baterry percntage
 		snprintf(batteryBuffer, sizeof(batteryBuffer), "%d%%", 
 		charge_state.charge_percent);
+		
+		// Show date
+		layer_set_hidden((Layer *)dateLayer, false);
+		
+		// Smaller font
+		text_layer_set_font(timeLayer, timeFont);
 	}
 	
 	// Put the text on the time, date, battery TextLayers
@@ -69,7 +97,7 @@ static void main_window_load(Window *window)
 	
 	// Create the time TextLayer with specific bounds
 	timeLayer = text_layer_create(
-		GRect(0, PBL_IF_ROUND_ELSE(58, 52), bounds.size.w, 50));
+		GRect(0, PBL_IF_ROUND_ELSE(58, 52), bounds.size.w, 80));
 	
 	// Make timeLayer look pretty
 	text_layer_set_background_color(timeLayer, GColorClear);
@@ -98,6 +126,7 @@ static void main_window_load(Window *window)
 	timeFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_50));
 	dateFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_28));
 	battFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_18));
+	chargeTimeFont = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_70));
 	text_layer_set_font(timeLayer, timeFont);
 	text_layer_set_font(dateLayer, dateFont);
 	text_layer_set_font(batteryLayer, battFont);
@@ -130,6 +159,9 @@ static void init()
 	
 	// Push the window to the watch
 	window_stack_push(mainWindow, true);
+	
+	app_message_register_inbox_received((AppMessageInboxReceived) in_recv_handler);
+  	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum()); 
 	
 	// Intialize the time and battery
 	update_time_battery();

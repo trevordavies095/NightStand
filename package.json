@@ -1,0 +1,55 @@
+{
+    "author": "Trevor Davies",
+    "dependencies": {
+        "pebble-clay": "^1.0.0"
+    },
+    "keywords": [],
+    "name": "night-stand",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Night Stand",
+        "enableMultiJS": true,
+        "messageKeys": {},
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "fonts/digital-7.ttf",
+                    "name": "FONT_70",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/digital-7.ttf",
+                    "name": "FONT_50",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/digital-7.ttf",
+                    "name": "FONT_18",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/digital-7.ttf",
+                    "name": "FONT_28",
+                    "targetPlatforms": null,
+                    "type": "font"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt"
+        ],
+        "uuid": "750d066a-f951-4914-9507-145a1f5ccb2a",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.4.0"
+}
