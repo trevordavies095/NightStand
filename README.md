@@ -8,4 +8,4 @@ Upcoming: Configurable settings.
 I made this.
 
 ![screen shot 1](http://i.imgur.com/uu56Cjl.png)
-![screen shot 2](http://i.imgur.com/lr8rd8y.png)
+![screen shot 2](http://i.imgur.com/rzMGPtX.png)
