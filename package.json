@@ -1,16 +1,14 @@
 {
     "author": "Trevor Davies",
-    "dependencies": {
-        "pebble-clay": "^1.0.0"
-    },
+    "dependencies": {},
     "keywords": [],
     "name": "night-stand",
     "pebble": {
         "capabilities": [
-            "configurable"
+            ""
         ],
         "displayName": "Night Stand",
-        "enableMultiJS": true,
+        "enableMultiJS": false,
         "messageKeys": {},
         "projectType": "native",
         "resources": {

@@ -9,21 +9,6 @@ static GFont dateFont;
 static GFont battFont;
 static GFont chargeTimeFont;
 
-#define KEY_CHG_LIGHT_OFF 0
-#define KEY_CHG_LIGHT_ON  1
-
-int chgLight;
-
-static void in_recv_handler(DictionaryIterator *iterator, void *context)
-{
-	Tuple *t = dict_read_first(iterator);
-  	
-	if(t)
-  	{
-			
-	}
-}
-
 static void update_time_battery()
 {
 	// Get a tm struct
@@ -160,8 +145,8 @@ static void init()
 	// Push the window to the watch
 	window_stack_push(mainWindow, true);
 	
-	app_message_register_inbox_received((AppMessageInboxReceived) in_recv_handler);
-  	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum()); 
+	//app_message_register_inbox_received((AppMessageInboxReceived) in_recv_handler);
+  	//app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum()); 
 	
 	// Intialize the time and battery
 	update_time_battery();
